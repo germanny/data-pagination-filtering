@@ -11,6 +11,34 @@ For assistance:
    Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
 */
 
+/*
+Add filter form
+ */
+function displayFilterForm() {
+  const header = document.querySelector('header');
+
+  const label = document.createElement('label');
+  label.for = 'search';
+  label.className = 'student-search';
+
+  const input = document.createElement('input');
+  input.id = 'search';
+  input.placeholder = 'Search by name ...';
+
+  const searchButton = document.createElement('button');
+  searchButton.type = 'button';
+  searchButton.id = 'submit';
+
+  const buttonIcon = document.createElement('img');
+  buttonIcon.src = 'img/icn-search.svg';
+  buttonIcon.alt = 'Search icon';
+
+  searchButton.appendChild(buttonIcon);
+  label.appendChild(input);
+  label.appendChild(searchButton);
+
+  return header.appendChild(label);
+}
 
 
 /*
@@ -83,11 +111,11 @@ function addPagination(list) {
       // insert the above elements
       linkList.insertAdjacentHTML('beforeend', linkItem);
     }
-  }
 
-  // give the first pagination button a class of "active"
-  const firstButton = linkList.querySelector('button');
-  firstButton.classList.add('active');
+    // give the first pagination button a class of "active"
+    const firstButton = linkList.querySelector('button');
+    firstButton.classList.add('active');
+  }
 
   // create an event listener on the `link-list` element
   linkList.addEventListener('click', (e) => {
@@ -104,6 +132,57 @@ function addPagination(list) {
   });
 }
 
+
+
+/*
+  Data Filtering
+*/
+// 1. Create a function to perform your search - it should accept two parameters: searchInput, names.
+function searchNames(searchInput, list) {
+  let filteredList = [];
+
+  // 1. Loop over the `list` parameter
+  for (let i = 0; i < list.length; i++) {
+    const name = `${list[i].name.first.toLowerCase()} ${list[i].name.last.toLowerCase()}`;
+    // 1b. Create a conditional that checks two conditions:
+      // 1ba. If the `searchInput.value.length` does not equal the digit zero AND `list[i].textContent.toLowerCase()` includes `searchInput.value.toLowerCase())`
+    if (
+      searchInput.value.length !== 0 &&
+      name.includes(searchInput.value.toLowerCase())
+    ) {
+      // 1bb. Add `list[i]` to filteredList
+      filteredList.push(list[i]);
+    }
+  }
+
+  if (filteredList.length === 0) {
+    filteredList = list;
+  }
+
+  showPage(filteredList, 1);
+  addPagination(filteredList);
+}
+
+
 // Call functions
+displayFilterForm();
 showPage(data, 1);
 addPagination(data);
+
+const search = document.querySelector('#search');
+const submit = document.querySelector('#submit');
+
+/* submit listener */
+submit.addEventListener('click', (event) => {
+  event.preventDefault();
+
+  // Invoke your search function here - Arguments: search, data
+  searchNames(search, data);
+});
+
+/* submit listener */
+search.addEventListener('keyup', () => {
+
+  // Invoke your search function here - Arguments: search, data
+  searchNames(search, data);
+});
