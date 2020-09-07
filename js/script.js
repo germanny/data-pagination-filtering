@@ -4,38 +4,32 @@ FSJS Project 2 - Data Pagination and Filtering
 */
 
 
-
-/*
-For assistance:
-   Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
-   Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
-*/
-
 /*
 Add filter form
  */
 function displayFilterForm() {
+  function createElement(elementName, atts) {
+    const element = document.createElement(elementName);
+
+    for (key in atts) {
+      element.setAttribute(key, atts[key]);
+    }
+
+    return element;
+  }
+
+  function appendToLabel(elementName, atts) {
+    const element = createElement(elementName, atts);
+    label.appendChild(element);
+    return element;
+  }
+
   const header = document.querySelector('header');
+  const label = createElement('label', {for: 'search', class: 'student-search'});
 
-  const label = document.createElement('label');
-  label.for = 'search';
-  label.className = 'student-search';
-
-  const input = document.createElement('input');
-  input.id = 'search';
-  input.placeholder = 'Search by name ...';
-
-  const searchButton = document.createElement('button');
-  searchButton.type = 'button';
-  searchButton.id = 'submit';
-
-  const buttonIcon = document.createElement('img');
-  buttonIcon.src = 'img/icn-search.svg';
-  buttonIcon.alt = 'Search icon';
-
-  searchButton.appendChild(buttonIcon);
-  label.appendChild(input);
-  label.appendChild(searchButton);
+  appendToLabel('input', {id: 'search', placeholder: 'Search by name ...'});
+  appendToLabel('button', {type: 'button', id: 'submit'})
+    .appendChild(createElement('img', {src: 'img/icn-search.svg', alt: 'Search icon'}));
 
   return header.appendChild(label);
 }
@@ -48,7 +42,6 @@ This function will create and insert/append the elements needed to display a "pa
 This function will take two parameters: list, and page. The list parameter will represent the array of student data we are working with and page parameter will be the page number that we want to display.
 */
 function showPage(list, page) {
-  // create two variables which will represent the index for the first and last student on the page
   const itemsPerPage = 9;
   const startIndex = (page * itemsPerPage) - itemsPerPage;
   const endIndex = page * itemsPerPage;
@@ -63,8 +56,7 @@ function showPage(list, page) {
   for (let i = 0; i < list.length; i++) {
     // inside the loop create a conditional to display the proper students
     if (i >= startIndex && i < endIndex) {
-      // inside the conditional:
-        // create the elements needed to display the student information
+      // create the elements needed to display the student information
       let studentItem = `
         <li class="student-item cf">
           <div class="student-details">
@@ -77,7 +69,7 @@ function showPage(list, page) {
           </div>
         </li>
       `;
-        // insert the above elements
+      // insert the above elements
       studentList.insertAdjacentHTML('beforeend', studentItem);
     }
   }
@@ -137,20 +129,20 @@ function addPagination(list) {
 /*
   Data Filtering
 */
-// 1. Create a function to perform your search - it should accept two parameters: searchInput, names.
+// Search function
 function searchNames(searchInput, list) {
   let filteredList = [];
 
-  // 1. Loop over the `list` parameter
+  // Loop over the `list`
   for (let i = 0; i < list.length; i++) {
     const name = `${list[i].name.first.toLowerCase()} ${list[i].name.last.toLowerCase()}`;
-    // 1b. Create a conditional that checks two conditions:
-      // 1ba. If the `searchInput.value.length` does not equal the digit zero AND `list[i].textContent.toLowerCase()` includes `searchInput.value.toLowerCase())`
+    // Create a conditional that checks two conditions:
+      // If the `searchInput.value.length` does not equal the digit zero AND `list[i].textContent.toLowerCase()` includes `searchInput.value.toLowerCase())`
     if (
       searchInput.value.length !== 0 &&
       name.includes(searchInput.value.toLowerCase())
     ) {
-      // 1bb. Add `list[i]` to filteredList
+      // Add `list[i]` to filteredList
       filteredList.push(list[i]);
     }
   }
@@ -169,20 +161,18 @@ displayFilterForm();
 showPage(data, 1);
 addPagination(data);
 
+
+// Filtering Event Handlers
 const search = document.querySelector('#search');
 const submit = document.querySelector('#submit');
 
 /* submit listener */
-submit.addEventListener('click', (event) => {
-  event.preventDefault();
-
-  // Invoke your search function here - Arguments: search, data
+submit.addEventListener('click', (e) => {
+  e.preventDefault();
   searchNames(search, data);
 });
 
 /* submit listener */
 search.addEventListener('keyup', () => {
-
-  // Invoke your search function here - Arguments: search, data
   searchNames(search, data);
 });
