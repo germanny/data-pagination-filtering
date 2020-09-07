@@ -147,3 +147,40 @@ Last but not least, consider testing out your application in multiple browsers. 
 Before you submit your project, closely review the “How you’ll be graded” section for this project and double-check that you have met all of those requirements.
 
 It is also a good idea to post your project in Slack for others to review before you officially submit it.
+
+
+## Extra Credit
+
+### Add a Search Component
+
+Dynamically create and add a search bar. Avoid making any changes in the index.html file and instead use your JavaScript skills for this. Here is an example of what the the final version of these elements should look like:
+
+```
+<label for="search" class="student-search">
+  <input id="search" placeholder="Search by name...">
+  <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
+</label>
+```
+
+### Add Functionality to the Search Component
+
+When the "Search" icon is clicked, the student data is filtered so that only students whose name matches the search query are shown. For example, if the name Bill is typed into the search field, only students with “Bill” in the name should be shown. If the letter S is typed in, only students with an “S” in the name should be shown.
+
+Pro Tip: To improve the functionality and improve the user experience, consider adding a keyup event listener to the search input so that the list filters in real-time as the user types. This should be in addition to making the search button clickable since pasting text into the search bar might not trigger the keyup event.
+
+Pro Tip: Remember you have already created a function to show nine students per page in Step 3. All you really need to do here is create a new student list based on the search matches and then use that new list as an argument when calling the already existing function to display the students.
+
+Project Warm Up: Configuring a search feature might seem complicated at first but it's can actually be accomplished with just a few steps. For some helpful practice, check out the Simple Search project warm-up.
+
+### Add Pagination for Search Results
+
+The pagination buttons should change based on the number of matches to the search. For example: if nine or fewer matches are found, there should be 0 or 1 pagination buttons. If 22 matches are found, there should be 3 pagination buttons.
+
+Clicking on a pagination button should display the corresponding matching students for that page.
+
+Pro Tip: Remember you already created a function to create pagination buttons in Step 4. Use this existing pagination function along with the matching student list you created in the previous step as an argument to create pagination for your search results.
+
+### Handle No Search Matches
+
+If no matches are found for a search, display a “No results found” type message on the page.
+Note: Don't use the built in alert() method for this. The "No results found" message should be printed to the page.
