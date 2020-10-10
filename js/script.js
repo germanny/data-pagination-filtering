@@ -4,8 +4,9 @@ FSJS Project 2 - Data Pagination and Filtering
 */
 
 
-/*
-Add filter form
+/**
+ * Add a search form to the page.
+ * @return {object} Form to search for students in the list
  */
 function displayFilterForm() {
   function createElement(elementName, atts) {
@@ -25,22 +26,21 @@ function displayFilterForm() {
   }
 
   const header = document.querySelector('header');
-  const label = createElement('label', {for: 'search', class: 'student-search'});
+  const label = createElement('label', { for: 'search', class: 'student-search' });
 
-  appendToLabel('input', {id: 'search', placeholder: 'Search by name ...'});
-  appendToLabel('button', {type: 'button', id: 'submit'})
-    .appendChild(createElement('img', {src: 'img/icn-search.svg', alt: 'Search icon'}));
+  appendToLabel('input', { id: 'search', placeholder: 'Search by name ...' });
+  appendToLabel('button', { type: 'button', id: 'submit' })
+    .appendChild(createElement('img', { src: 'img/icn-search.svg', alt: 'Search icon' }));
 
   return header.appendChild(label);
 }
 
 
-/*
-Create the `showPage` function
-This function will create and insert/append the elements needed to display a "page" of nine students.
-
-This function will take two parameters: list, and page. The list parameter will represent the array of student data we are working with and page parameter will be the page number that we want to display.
-*/
+/**
+ * Create and insert/append the elements needed to display a "page" of nine students.
+ * @param {array} list - Array of student data we are working with
+ * @param {integer} page - Page number that we want to display
+ */
 function showPage(list, page) {
   const itemsPerPage = 9;
   const startIndex = (page * itemsPerPage) - itemsPerPage;
@@ -75,10 +75,10 @@ function showPage(list, page) {
   }
 }
 
-/*
-Create the `addPagination` function
-This function will create and insert/append the elements needed for the pagination buttons
-*/
+/**
+ * Create and insert/append the elements needed for the pagination buttons.
+ * @param {array} list - Array of student data we are working with
+ */
 function addPagination(list) {
   // create a variable to calculate the number of pages needed
   const itemsPerPage = 9;
@@ -124,12 +124,14 @@ function addPagination(list) {
   });
 }
 
-
-
 /*
   Data Filtering
 */
-// Search function
+/**
+ * Search for value in list of students.
+ * @param {object} searchInput - Input field with the value to search for
+ * @param {array} list - Array of student data we are working with
+ */
 function searchNames(searchInput, list) {
   let filteredList = [];
 
@@ -137,7 +139,7 @@ function searchNames(searchInput, list) {
   for (let i = 0; i < list.length; i++) {
     const name = `${list[i].name.first.toLowerCase()} ${list[i].name.last.toLowerCase()}`;
     // Create a conditional that checks two conditions:
-      // If the `searchInput.value.length` does not equal the digit zero AND `list[i].textContent.toLowerCase()` includes `searchInput.value.toLowerCase())`
+    // If the `searchInput.value.length` does not equal the digit zero AND `list[i].textContent.toLowerCase()` includes `searchInput.value.toLowerCase())`
     if (
       searchInput.value.length !== 0 &&
       name.includes(searchInput.value.toLowerCase())
